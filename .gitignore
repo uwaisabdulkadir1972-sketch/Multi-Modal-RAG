@@ -1,0 +1,7 @@
+venv/ 
+mmrag_store/ 
+__pycache__/ 
+*.pyc 
+*.npy 
+mmrag_results.json 
+mmrag_evaluation.xlsx 
