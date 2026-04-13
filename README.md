@@ -1,2 +1,3 @@
-# Multi-Modal-RAG
-Multimodal RAG system for enterprise slide QA — dual-path CLIP + MiniLM retrieval, Groq vision-language generation, and automated LLM-as-a-Judge evaluation. Runs locally via Streamlit, no GPU required.
+A production-ready Multimodal RAG (Retrieval-Augmented Generation) system that answers natural-language questions grounded in both text and visuals from slide decks.
+Retrieval fuses semantic text search (MiniLM) and visual similarity (CLIP) with tuned score weighting. Answer generation uses Llama-4-Scout-17B via Groq, which reads slide images directly for chart and diagram understanding. Includes an automated 4-tier evaluation pipeline with Fact Coverage, Hit Rate, and LLM-as-a-Judge scoring using an independent 70B model to prevent self-evaluation bias.
+Built for resource-constrained hardware — runs fully on CPU with cloud inference via Groq API. No GPU required.
