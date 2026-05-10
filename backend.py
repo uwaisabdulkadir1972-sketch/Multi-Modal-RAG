@@ -49,7 +49,7 @@ VISUAL_SLIDE_NUM_DENSITY = 0.15
 # ── Groq settings ─────────────────────────────────────────────────────────────
 # Get a free key at https://console.groq.com
 # Set as environment variable GROQ_API_KEY or paste directly below
-GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "you api key here")
+GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "")
 GROQ_MODEL      = "meta-llama/llama-4-scout-17b-16e-instruct"
 GROQ_MAX_IMG_PX = 1120   # resize longest side to this before sending (keeps payload small)
 
@@ -250,21 +250,36 @@ class MMRAGBackend:
         # Add text prompt
         content.append({"type": "text", "text": prompt})
 
+        system_msg = (
+            "You are a precise question-answering assistant for slide decks. "
+            "Always answer directly and concisely. "
+            "Never think out loud, show reasoning steps, or use phrases like "
+            "'Let me...', 'To determine...', 'Step 1:', 'However,', or 'Therefore,'. "
+            "Never reference where you found the information — no 'According to slide...', "
+            "'Based on the image...', or similar phrases. "
+            "Just state the answer."
+        )
+
         try:
             response = self.groq_client.chat.completions.create(
                 model=GROQ_MODEL,
-                messages=[{"role": "user", "content": content}],
+                messages=[
+                    {"role": "system", "content": system_msg},
+                    {"role": "user",   "content": content},
+                ],
                 max_tokens=max_tokens,
                 temperature=0,
             )
             return response.choices[0].message.content.strip()
         except Exception as e:
             log.warning(f"Groq vision call failed: {e} — retrying text-only")
-            # Fallback: text-only if vision fails
             try:
                 response = self.groq_client.chat.completions.create(
                     model=GROQ_MODEL,
-                    messages=[{"role": "user", "content": prompt}],
+                    messages=[
+                        {"role": "system", "content": system_msg},
+                        {"role": "user",   "content": prompt},
+                    ],
                     max_tokens=max_tokens,
                     temperature=0,
                 )
@@ -326,7 +341,11 @@ class MMRAGBackend:
             "table values, and diagram labels directly from the visuals.\n"
             "- Do not estimate chart values — read the exact numbers shown.\n"
             "- Cross-reference the images with the extracted text above.\n"
-            "- Give a direct, complete answer with specific figures where visible.\n\n"
+            "- Give a direct, complete answer with specific figures where visible.\n"
+            "- Do NOT think out loud or show reasoning steps — state the answer directly.\n"
+            "- Do NOT reference slides, images, or where you found the information. "
+            "Never say 'According to slide...', 'Based on the image...', "
+            "'This is stated in...', or similar phrases.\n\n"
             "Answer:"
         )
 

@@ -22,141 +22,127 @@ from backend import MMRAGBackend
 # ─────────────────────────────────────────────────────────────────────────
 # GOLDEN QA
 # ─────────────────────────────────────────────────────────────────────────
+
 golden_qa = [
 
     # ── Tier 1: Direct Text ───────────────────────────────────────────────
     {
-        "tier":     "1_direct_text",
-        "question": "What is the purchase price for the ams OSRAM sensor business acquisition?",
-        "answer":   "The purchase price is EUR 570 million, structured as an all-cash transaction.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_002.png"],
-        "facts":    ["570"],
+    "tier":     "1_direct_text",
+    "question": "How many new patent applications did Infineon file in fiscal year 2024?",
+    "answer":   "Approximately 1,900 new patent applications.",
+    "pages":    ["fy2025-q3-web-en_page_025.png"],
+    "facts":    ["1,900"],
     },
     {
         "tier":     "1_direct_text",
-        "question": "How many employees are included in the acquisition and how many work in R&D?",
-        "answer":   "Approximately 230 employees in total, of which approximately 150 are in R&D.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_002.png"],
-        "facts":    ["230", "150"],
+        "question": "What is Infineon's most recent quarterly revenue?",
+        "answer":   "EUR 3,704 million in Q3 FY25.",
+        "pages":    ["fy2025-q3-web-en_page_010.png"],
+        "facts":    ["3,704"],
     },
     {
         "tier":     "1_direct_text",
-        "question": "When is the transaction expected to close and what regulatory conditions apply?",
-        "answer":   "Closing is expected by Q2 calendar year 2026, subject to customary regulatory approvals.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_004.png"],
-        "facts":    ["Q2", "2026", "regulatory"],
+        "question": "How many patents does Infineon hold in its portfolio?",
+        "answer":   "29,900 patents and patent applications.",
+        "pages":    ["fy2025-q3-web-en_page_025.png"],
+        "facts":    ["29,900"],
     },
     {
         "tier":     "1_direct_text",
-        "question": "What is the estimated CY26 revenue of the ams OSRAM sensor business being acquired?",
-        "answer":   "Approximately EUR 230 million in estimated CY26 revenue.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_002.png"],
-        "facts":    ["230"],
+        "question": "What are the core applications served by the Green Industrial Power segment?",
+        "answer":   (
+            "Energy generation, energy storage, energy transmission, home appliances, "
+            "industrial drives, industrial power supplies, industrial robotics, "
+            "industrial vehicles, and traction."
+        ),
+        "pages":    ["fy2025-q3-web-en_page_017.png"],
+        "facts":    ["energy generation", "energy storage", "industrial drives", "traction"],
     },
 
     # ── Tier 2: Visual Read ───────────────────────────────────────────────
     {
         "tier":     "2_visual_read",
-        "question": "What three sensor types does the ams OSRAM acquisition add to Infineon's automotive portfolio?",
-        "answer":   "The acquisition adds Magnetic position sensors, Capacitive sensors, and Battery sensors to Infineon's automotive lineup.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_003.png"],
-        "facts":    ["Magnetic position sensors", "Capacitive sensors", "Battery sensors"],
+        "question": "What are Infineon's market share percentages in Automotive semiconductors and the Microcontroller market?",
+        "answer":   "13.5% in Automotive semiconductors and 21.4% in Microcontrollers.",
+        "pages":    ["fy2025-q3-web-en_page_008.png"],
+        "facts":    ["13.5", "21.4"],
     },
     {
         "tier":     "2_visual_read",
-        "question": "What are the three end markets shown in the pie chart for the acquired sensor business, and which one has the largest share?",
-        "answer":   "The three end markets are Automotive, Industrial, and Medical. Automotive has the largest share based on the pie chart.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_002.png"],
-        "facts":    ["Automotive", "Industrial", "Medical"],
+        "question": "Which region contributes the largest share of Infineon's revenue, and what is that percentage?",
+        "answer":   "Mainland China and Hong Kong at 27%.",
+        "pages":    ["fy2025-q3-web-en_page_012.png"],
+        "facts":    ["27", "Mainland China"],
     },
     {
         "tier":     "2_visual_read",
-        "question": "On slide 5, how many sensor types are shown in Infineon's combined position sensor portfolio table and what are they?",
-        "answer":   "Five: 3D sensor, Angle sensors, Linear sensors, Magnetic switches, and Inductive sensors.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_005.png"],
-        "facts":    ["5", "3D sensor", "Angle sensors", "Linear sensors", "Magnetic switches", "Inductive sensors"],
+        "question": "Has Infineon's total revenue recovered to its year-ago level?",
+        "answer":   "Yes, essentially flat. Q3 FY24 was EUR 3,702 million and Q3 FY25 is EUR 3,704 million.",
+        "pages":    ["fy2025-q3-web-en_page_010.png"],
+        "facts":    ["3,702", "3,704"],
     },
     {
         "tier":     "2_visual_read",
-        "question": "What are the four financial value creation points listed on slide 4?",
-        "answer":   (
-            "The four points are: (1) Growth and margin profile in line with Infineon TOM, "
-            "(2) EPS accretive from day 1, (3) Additional cost synergies within the next 3 years, "
-            "(4) Advanced roadmap leveraging Infineon analog/mixed-signal products with ams OSRAM's."
-        ),
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_004.png"],
-        "facts":    ["EPS accretive", "cost synergies", "TOM", "Advanced roadmap"],
+        "question": "Did Infineon's revenue grow or decline from FY23 to FY24?",
+        "answer":   "Declined, from EUR 16,309 million in FY23 to EUR 14,955 million in FY24.",
+        "pages":    ["fy2025-q3-web-en_page_004.png"],
+        "facts":    ["16,309", "14,955"],
     },
 
     # ── Tier 3: Multi-Slide ───────────────────────────────────────────────
     {
         "tier":     "3_multi_slide",
-        "question": "Which sensor types appear in both the Automotive and Industrial columns of Infineon's existing pre-acquisition portfolio on slide 3?",
-        "answer":   "Four types appear in both columns: Radar sensors, Magnetic position sensors, Gas/leakage sensors, and CAPSENSE µC.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_003.png"],
-        "facts":    ["Radar sensors", "Magnetic position sensors", "Gas/leakage sensors", "CAPSENSE"],
+        "question": "Which of Infineon's four segments has the highest and lowest segment result margin in Q3 FY25?",
+        "answer":   "Highest is Automotive at 19.8%. Lowest is Connected Secure Systems at 11.2%.",
+        "pages":    ["fy2025-q3-web-en_page_015.png",
+                     "fy2025-q3-web-en_page_017.png",
+                     "fy2025-q3-web-en_page_019.png",
+                     "fy2025-q3-web-en_page_021.png"],
+        "facts":    ["19.8", "11.2", "Automotive", "Connected Secure Systems"],
     },
     {
         "tier":     "3_multi_slide",
-        "question": "Based on slides 3 and 5, which acquired ams OSRAM sensor type listed in the automotive portfolio is also explicitly referenced in the humanoid robot use case?",
-        "answer":   "Capacitive sensors. Slide 3 lists them as an acquired automotive addition, and slide 5 states 'capacitive sensing for dexterous hands' as part of humanoid robot usage.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_003.png",
-                     "20260203-ifx-ams-osram-acquisition-v01-00-en_page_005.png"],
-        "facts":    ["Capacitive sensors", "dexterous hands"],
+        "question": "Which segment improved its margin the most from Q3 FY24 to Q3 FY25?",
+        "answer":   "Power & Sensor Systems, from 11.7% to 18.8%, an improvement of 7.1 percentage points.",
+        "pages":    ["fy2025-q3-web-en_page_019.png"],
+        "facts":    ["Power & Sensor Systems", "11.7", "18.8"],
     },
     {
         "tier":     "3_multi_slide",
-        "question": "What is the implied price-to-revenue multiple for the acquisition based on figures stated on slide 2?",
-        "answer":   "Approximately 2.5x. The purchase price is EUR 570 million and CY26e revenue is approximately EUR 230 million, giving 570 / 230 ≈ 2.48x.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_002.png"],
-        "facts":    ["2.5", "570", "230"],
+        "question": "Infineon claims to be number one in automotive semiconductors. Who is their closest competitor and what is the gap?",
+        "answer":   "NXP is the closest competitor at 10.5%, versus Infineon's 13.5%, a gap of 3 percentage points.",
+        "pages":    ["fy2025-q3-web-en_page_003.png",
+                     "fy2025-q3-web-en_page_008.png"],
+        "facts":    ["13.5", "NXP", "10.5"],
     },
     {
         "tier":     "3_multi_slide",
-        "question": "How does the acquisition expand Infineon's medical market presence, and what specific products are added?",
+        "question": "What share of Infineon's FY24 revenue comes from the growth areas the company highlights?",
         "answer":   (
-            "The acquisition expands Infineon's footprint into the high-value medical market. "
-            "The ams OSRAM portfolio adds Temperature sensors, Conventional and photon counting ICs, "
-            "and X-ray sensor ICs — categories Infineon did not previously offer."
+            "40% in total: E-mobility 16%, Renewables 7%, Software-defined vehicle 7%, "
+            "IoT 5%, and AI/Data center 5%."
         ),
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_002.png",
-                     "20260203-ifx-ams-osram-acquisition-v01-00-en_page_003.png"],
-        "facts":    ["Temperature sensors", "photon counting", "X-ray"],
+        "pages":    ["fy2025-q3-web-en_page_004.png",
+                     "fy2025-q3-web-en_page_013.png"],
+        "facts":    ["40", "E-mobility", "Renewables", "IoT", "AI"],
     },
 
     # ── Tier 4: Stress Tests ──────────────────────────────────────────────
     {
         "tier":     "4_stress",
-        "question": "What internal German-language note appears on the cover slide of the presentation?",
-        "answer":   (
-            "The cover slide contains a German preamble stating that the presentation is designed "
-            "so that Infineon would also be fine without the deal "
-            "(Praesentation ist so konzipiert, dass Infineon auch ohne den Deal klarkommen wuerde)."
-        ),
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_001.png"],
-        "facts":    ["Praambel", "ohne den Deal"],
+        "question": "What is the forecast revenue range for the global semiconductor market in 2026?",
+        "answer":   "USD 761 billion to USD 839 billion.",
+        "pages":    ["fy2025-q3-web-en_page_007.png"],
+        "facts":    ["761", "839"],
     },
     {
         "tier":     "4_stress",
-        "question": "What does the abbreviation TOM stand for as defined on slide 4?",
-        "answer":   "TOM stands for Target Operating Model, as defined in the footnote at the bottom of slide 4.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_004.png"],
-        "facts":    ["Target Operating Model"],
+        "question": "What is Infineon's CO2 burden-to-savings ratio and what are the exact tonnage figures?",
+        "answer":   "Ratio of 1:45. Burden of 2.9 million tons, savings of 130.3 million tons CO2 equivalents.",
+        "pages":    ["fy2025-q3-web-en_page_029.png"],
+        "facts":    ["1:45", "2.9", "130.3"],
     },
-    {
-        "tier":     "4_stress",
-        "question": "Which specific sensor types in the combined position sensor portfolio table on slide 5 are highlighted as the acquired portfolio from ams OSRAM?",
-        "answer":   "Angle sensors and Linear sensors are highlighted with an orange border as the acquired portfolio items.",
-        "pages":    ["20260203-ifx-ams-osram-acquisition-v01-00-en_page_005.png"],
-        "facts":    ["Angle sensors", "Linear sensors"],
-    },
-    {
-        "tier":     "4_stress",
-        "question": "What specific EPS figure or percentage improvement does the presentation quote for the acquisition?",
-        "answer":   "The presentation does not provide a specific EPS figure or percentage. It states only that the deal is EPS accretive from day 1 without quantifying the impact.",
-        "pages":    [],
-        "facts":    [],
-    },
+
 ]
 
 # ─────────────────────────────────────────────────────────────────────────
@@ -164,7 +150,7 @@ golden_qa = [
 # ─────────────────────────────────────────────────────────────────────────
 import requests as _requests
 
-GROQ_JUDGE_KEY   = "your API key here"  # ← paste your Groq key here
+GROQ_JUDGE_KEY   = ""  # ← paste your Groq key here
 GROQ_JUDGE_MODEL = "llama-3.3-70b-versatile"
 GROQ_JUDGE_URL   = "https://api.groq.com/openai/v1/chat/completions"
 
@@ -273,6 +259,26 @@ def retrieval_hit_and_rank(retrieved_pages, gold_pages):
             return 1.0, i
     return 0.0, None
 
+def retrieval_recall_and_rank(retrieved_pages, gold_pages):
+    """Fraction of gold pages retrieved (recall), plus rank of first hit.
+    Used for Tier 3 multi-slide questions where partial retrieval should
+    be rewarded rather than scoring binary 0 or 1.
+    """
+    if not gold_pages:
+        return None, None
+    def stem(p):
+        return os.path.splitext(os.path.basename(str(p)).lower())[0]
+    gold_stems = {stem(p) for p in gold_pages}
+    found      = 0
+    first_rank = None
+    for i, rp in enumerate(retrieved_pages, 1):
+        if stem(rp) in gold_stems:
+            found += 1
+            if first_rank is None:
+                first_rank = i
+    recall = round(found / len(gold_pages), 3)
+    return recall, first_rank
+
 def _fact_matches(fact, answer_lower):
     if fact.lower() in answer_lower:
         return True
@@ -319,12 +325,15 @@ def run_evaluation(backend):
         tier      = qa.get("tier", "unknown")
 
         t0         = time.time()
-        result     = backend.ask(question, top_k=3)
+        result     = backend.ask(question, top_k=5)
         latency_s  = round(time.time() - t0, 1)
         prediction = result["answer"]
         retrieved  = [s["filename"] for s in result["sources"]]
 
-        hit, rank     = retrieval_hit_and_rank(retrieved, pages)
+        if tier == "3_multi_slide" and len(pages) > 1:
+            hit, rank = retrieval_recall_and_rank(retrieved, pages)
+        else:
+            hit, rank = retrieval_hit_and_rank(retrieved, pages)
         cov, missing  = fact_coverage(facts, prediction)
         qual, verdict = answer_quality(question, reference, prediction)
         score         = overall_score(hit, cov, qual)
@@ -575,8 +584,8 @@ def export_excel(results, output_path="mmrag_evaluation.xlsx"):
         v_bg = {"GOOD":"gbg","OK":"abg","BAD":"rbg"}.get(base_vrd,"offwh")
         v_fg = {"GOOD":"gfg","OK":"afg","BAD":"rfg"}.get(base_vrd,"555555")
         hit  = r.get("hit")
-        h_bg = "gbg" if hit==1.0 else ("rbg" if hit==0.0 else "offwh")
-        h_fg = "gfg" if hit==1.0 else ("rfg" if hit==0.0 else "888888")
+        h_bg = "gbg" if hit==1.0 else ("abg" if (hit is not None and 0.0 < hit < 1.0) else ("rbg" if hit==0.0 else "offwh"))
+        h_fg = "gfg" if hit==1.0 else ("afg" if (hit is not None and 0.0 < hit < 1.0) else ("rfg" if hit==0.0 else "888888"))
         cov  = r.get("fact_coverage")
         c_bg = ("gbg" if cov and cov>=0.8 else ("abg" if cov and cov>=0.5 else "rbg")) if cov is not None else "offwh"
         ov   = r.get("overall")
@@ -602,7 +611,15 @@ def export_excel(results, output_path="mmrag_evaluation.xlsx"):
         wc(5,  r.get("reference",""))
         wc(6,  r.get("prediction",""))
         wc(7,  top_slide,     h="center")
-        wc(8,  "Hit" if hit==1.0 else ("Miss" if hit==0.0 else "--"), cell_bg=h_bg,cell_fg=h_fg,bold=True,h="center")
+        if hit == 1.0:
+            hit_label = "Hit"
+        elif hit == 0.0:
+            hit_label = "Miss"
+        elif hit is not None:
+            hit_label = f"Recall\n{hit:.0%}"  # partial recall for Tier 3
+        else:
+            hit_label = "--"
+        wc(8,  hit_label, cell_bg=h_bg,cell_fg=h_fg,bold=True,h="center")
         wc(9,  rank_str,      h="center")
         wc(10, Pct(cov),      cell_bg=c_bg, h="center")
         wc(11, vrd,           cell_bg=v_bg,cell_fg=v_fg,bold=True,h="center")
@@ -675,4 +692,10 @@ if __name__ == "__main__":
     print()
 
     results = run_evaluation(backend)
+
+    # Autosave results so Excel can be re-exported without re-running
+    with open("mmrag_results.json", "w") as f:
+        json.dump(results, f, indent=2)
+    print("✅ Results saved to mmrag_results.json")
+
     export_excel(results, "mmrag_evaluation.xlsx")
