@@ -2,6 +2,12 @@
 
 A question-answering application that retrieves relevant slides using text and visual embeddings, then sends the selected images to a vision model to generate an answer. The interface is built with Streamlit; retrieval and OCR can run on a CPU, while captioning and answer generation use the Groq API.
 
+## Demo
+
+The example below uses a synthetic slide to show a question, answer and retrieved source.
+
+![Slide assistant answering a question about a synthetic slide](docs/demo.png)
+
 ## How it works
 
 1. Convert uploaded PDFs to slide images and extract text with EasyOCR.
