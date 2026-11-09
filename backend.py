@@ -50,7 +50,7 @@ VISUAL_SLIDE_NUM_DENSITY = 0.15
 # Get a free key at https://console.groq.com
 # Set as environment variable GROQ_API_KEY or paste directly below
 GROQ_API_KEY    = os.environ.get("GROQ_API_KEY", "")
-GROQ_MODEL      = "meta-llama/llama-4-scout-17b-16e-instruct"
+GROQ_MODEL      = os.environ.get("GROQ_MODEL", "qwen/qwen3.8-27b")
 GROQ_MAX_IMG_PX = 1120   # resize longest side to this before sending (keeps payload small)
 
 
@@ -117,7 +117,7 @@ class MMRAGBackend:
             raise RuntimeError(
                 "Groq API key not set.\n"
                 "1. Get a free key at https://console.groq.com\n"
-                "2. Set it in backend.py: GROQ_API_KEY = 'your_key'"
+                "2. Set the GROQ_API_KEY environment variable."
             )
         try:
             from groq import Groq
@@ -231,7 +231,7 @@ class MMRAGBackend:
 
     def _groq_generate(self, image_paths: List[str], prompt: str, max_tokens: int) -> str:
         """
-        Send images + prompt to Groq Llama 4 Scout (vision model).
+        Send images + prompt to the configured Groq vision model.
         Images are base64-encoded PNGs. Falls back to text-only if images fail.
         """
         content = []
