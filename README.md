@@ -6,14 +6,14 @@ A question-answering application that retrieves relevant slides using text and v
 
 1. Convert uploaded PDFs to slide images and extract text with EasyOCR.
 2. Index slides using multi-qa-MiniLM text embeddings and CLIP image embeddings. Groq generates captions for visual content.
-3. Combine text and image similarity scores (default weights 0.75 and 0.25) to retrieve the top slides.
+3. Combine text and image similarity scores (the app starts at 0.70 and 0.30; weights are adjustable) to retrieve the top slides.
 4. Send the selected images and question to Llama 4 Scout through Groq. The interface shows the answer and retrieved sources.
 
 **Stack:** Python, Streamlit, EasyOCR, sentence-transformers, OpenCLIP, PyTorch, Groq and PyMuPDF.
 
 ## Run locally
 
-Requirements: Python, an internet connection for initial model downloads and Groq requests, and a Groq API key. Model downloads and CPU indexing can take time. A GPU is not required for the retrieval models.
+Requirements: Python (the pinned dependencies fail to install on Python 3.10; use Python 3.11 or newer, subject to platform compatibility), an internet connection for initial model downloads and Groq requests, and a Groq API key. Model downloads and CPU indexing can take time. A GPU is not required for the retrieval models.
 
 ```bash
 git clone https://github.com/uwaisabdulkadir1972-sketch/Multi-Modal-RAG.git
