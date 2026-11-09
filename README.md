@@ -1,190 +1,68 @@
-# Multi-Modal-RAG
+# Multimodal RAG for Slide Decks
 
-A multimodal Retrieval-Augmented Generation (RAG) system that answers natural-language questions grounded in both text and visuals from slide decks. Built for enterprise document QA — no GPU required.
+A question-answering application that retrieves relevant slides using text and visual embeddings, then sends the selected images to a vision model to generate an answer. The interface is built with Streamlit; retrieval and OCR can run on a CPU, while captioning and answer generation use the Groq API.
 
----
+## How it works
 
-## What it does
+1. Convert uploaded PDFs to slide images and extract text with EasyOCR.
+2. Index slides using multi-qa-MiniLM text embeddings and CLIP image embeddings. Groq generates captions for visual content.
+3. Combine text and image similarity scores (default weights 0.75 and 0.25) to retrieve the top slides.
+4. Send the selected images and question to Llama 4 Scout through Groq. The interface shows the answer and retrieved sources.
 
-Upload a PDF or set of slide images and ask questions in plain English. The system retrieves the most relevant slides using both text and visual similarity, then generates a grounded answer by reading the actual slide images — including charts, tables, and diagrams.
+**Stack:** Python, Streamlit, EasyOCR, sentence-transformers, OpenCLIP, PyTorch, Groq and PyMuPDF.
 
----
+## Run locally
 
-## Architecture
+Requirements: Python, an internet connection for initial model downloads and Groq requests, and a Groq API key. Model downloads and CPU indexing can take time. A GPU is not required for the retrieval models.
 
-```
-┌─────────────────────────────────────────────────────┐
-│                   INDEXING (offline)                 │
-│  Slide Image → EasyOCR → MiniLM (384-dim text emb) │
-│             → Groq caption → CLIP (512-dim img emb) │
-└─────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────┐
-│                  RETRIEVAL (online)                  │
-│  Query → MiniLM text score (×0.75)                  │
-│        → CLIP image score  (×0.25)                  │
-│        → Fused score → Top-K slides                 │
-└─────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────┐
-│               GENERATION (online)                    │
-│  Top-K slides + query → Groq Llama-4-Scout-17B      │
-│  Reads images directly → Grounded answer            │
-└─────────────────────────────────────────────────────┘
-```
-
----
-
-## Models
-
-| Component | Model | Where |
-|---|---|---|
-| OCR | EasyOCR | Local (CPU) |
-| Text retrieval | MiniLM L6 (multi-qa) | Local (CPU) |
-| Image retrieval | CLIP ViT-B/32 | Local (CPU) |
-| Caption generation | Llama-4-Scout-17B | Groq API |
-| Answer generation | Llama-4-Scout-17B | Groq API |
-| Evaluation judge | Llama 3.1 8B | Local (Ollama) |
-
----
-
-## Evaluation Results
-
-Reported results from a small four-tier evaluation on an Infineon slide deck. The current evaluation script uses a local Ollama judge; the reported figures should be checked against the dataset and configuration before being compared with a new run.
-
-| Metric | Score |
-|---|---|
-| Hit Rate | 100% |
-| Fact Coverage | 97% |
-| Overall (Tiers 1–3) | 99% |
-
-| Tier | Description | Hit Rate | Fact Cov. |
-|---|---|---|---|
-| Tier 1 — Direct Text | Headline facts | 100% | 100% |
-| Tier 2 — Visual Read | Charts & tables | 100% | 100% |
-| Tier 3 — Multi-Slide | Cross-slide reasoning | 100% | 92% |
-| Tier 4 — Stress Tests | Hard edge cases (excluded) | 67% | 33% |
-
----
-
-## Requirements
-
-- Python 3.10+
-- [Ollama](https://ollama.com) (for local evaluation judge)
-- Groq API key — free at [console.groq.com](https://console.groq.com)
-
----
-
-## Setup
-
-**1. Clone the repo:**
 ```bash
 git clone https://github.com/uwaisabdulkadir1972-sketch/Multi-Modal-RAG.git
 cd Multi-Modal-RAG
+python -m venv .venv
 ```
 
-**2. Create and activate a virtual environment:**
+Activate the environment (`.venv\\Scripts\\Activate.ps1` in PowerShell or `source .venv/bin/activate` on macOS/Linux), then:
+
 ```bash
-python -m venv venv
-
-# Windows
-venv\Scripts\activate.bat
-
-# Mac/Linux
-source venv/bin/activate
+python -m pip install -r requirements.txt
 ```
 
-**3. Install dependencies:**
-```bash
-pip install -r requirements.txt
-```
+Set `GROQ_API_KEY` as an environment variable before starting the app. For example, in PowerShell:
 
-**4. Set the `GROQ_API_KEY` environment variable:**
-```bash
-# macOS / Linux
-export GROQ_API_KEY="your_key_here"
-# PowerShell
-$env:GROQ_API_KEY = "your_key_here"
-```
-
----
-
-## Running the app
-
-```bash
+```powershell
+$env:GROQ_API_KEY = 'your-key'
 streamlit run app.py
 ```
 
-Browser opens at `http://localhost:8501`.
+Open the address printed by Streamlit, select **Load System**, upload a PDF or slide images, and ask a question. Do not commit API keys to the repository.
 
-1. Click **Load System** in the sidebar
-2. Upload PDF or image slides via the sidebar
-3. Ask questions in the chat box
+## Evaluation
 
----
+`evaluate.py` contains 14 hand-written questions: four direct-text, four visual, four multi-slide and two stress-test questions. The script measures retrieval, fact coverage and answer quality. The summary excludes the stress tier. It requests five retrieved slides for each question; multi-slide retrieval uses partial recall rather than a simple hit.
 
-## Running the evaluation
+When `GROQ_JUDGE_KEY` is set and the service is available, answer quality is graded by `llama-3.3-70b-versatile` through Groq. Otherwise the script falls back to a word-overlap heuristic, marked with `*` in the output. Results from these methods are not directly equivalent.
 
-**1. Pull the judge model (one time):**
+The previously reported percentages cannot be reproduced from this repository alone: the source slides and raw evaluation output are not included, and the earlier report describes a different question count and judge. They are therefore omitted here until the original run can be verified.
+
+To run the current evaluation, first index the source slides referenced in `golden_qa` using the app. Set `GROQ_API_KEY`, optionally set `GROQ_JUDGE_KEY`, and run:
+
 ```bash
-ollama pull llama3.1:8b
-```
-
-**2. Run:**
-```bash
-# Start Ollama in a separate terminal
-ollama serve
-
-# Run evaluation
 python evaluate.py
 ```
 
-Results print live. `mmrag_evaluation.xlsx` is saved in your project folder.
-
-**To re-export Excel without re-running:**
-```bash
-python evaluate.py --excel-only
-```
-
----
-
-## Project structure
-
-```
-Multi-Modal-RAG/
-├── app.py              # Streamlit UI
-├── backend.py          # CLIP + MiniLM + Groq pipeline
-├── evaluate.py         # 4-tier evaluation + Excel export
-├── requirements.txt    # Python dependencies
-└── mmrag_store/        # Created at runtime (slides + index)
-    ├── pages/          # Slide images
-    └── index/          # Embeddings + knowledge base
-```
-
----
+The script saves detailed results to `mmrag_results.json` and an Excel workbook to `mmrag_evaluation.xlsx`. Model availability, API limits and service costs depend on the provider and account.
 
 ## Limitations
 
-- Groq free tier: 500k tokens/day — sufficient for normal use, may hit limits during bulk evaluation
-- OCR struggles with handwritten text and very small fonts
-- Single-page retrieval — cannot synthesise across more than top-K slides per query
-- No GPU required, but indexing and retrieval are slower on CPU-only machines
+- Results depend on retrieval quality, OCR and the vision model; answers should be checked against source slides.
+- The evaluation is a small, manually written set focused on one slide deck, not a general benchmark.
+- Images and questions are sent to Groq. Only use documents you are permitted to send to an external service.
+- The repository does not include the evaluation slides or a sample dataset, so reproducing the original experiment requires those files.
 
----
+## Files
 
-## Future Work
+- `app.py` — Streamlit interface
+- `backend.py` — indexing, retrieval and answer generation
+- `evaluate.py` — evaluation and Excel export
+- `requirements.txt` — pinned dependencies
 
-- Scale to 1000+ page enterprise repositories with approximate nearest-neighbour search (FAISS)
-- Multi-page synthesis for complex cross-document queries
-- API-based answering with GPT-4o or Gemini for higher visual accuracy
-- Support for additional document types (Word, Excel, PowerPoint)
-
----
-
-## Built with
-
-`Python` `Streamlit` `PyTorch` `CLIP` `EasyOCR` `Sentence Transformers` `Groq` `OpenCLIP` `Ollama` `OpenPyXL`
-
----
-
-*Singapore University of Technology and Design — Engineering Systems and Design*
