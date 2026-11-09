@@ -21,7 +21,7 @@ cd Multi-Modal-RAG
 python -m venv .venv
 ```
 
-Activate the environment (`.venv\\Scripts\\Activate.ps1` in PowerShell or `source .venv/bin/activate` on macOS/Linux), then:
+Activate the environment (`.venv\Scripts\Activate.ps1` in PowerShell or `source .venv/bin/activate` on macOS/Linux), then:
 
 ```bash
 python -m pip install -r requirements.txt
