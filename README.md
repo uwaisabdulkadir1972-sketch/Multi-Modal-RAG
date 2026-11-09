@@ -1,6 +1,6 @@
 # Multi-Modal-RAG
 
-A production-ready Multimodal Retrieval-Augmented Generation (RAG) system that answers natural-language questions grounded in both text and visuals from slide decks. Built for enterprise document QA — no GPU required.
+A multimodal Retrieval-Augmented Generation (RAG) system that answers natural-language questions grounded in both text and visuals from slide decks. Built for enterprise document QA — no GPU required.
 
 ---
 
@@ -44,13 +44,13 @@ Upload a PDF or set of slide images and ask questions in plain English. The syst
 | Image retrieval | CLIP ViT-B/32 | Local (CPU) |
 | Caption generation | Llama-4-Scout-17B | Groq API |
 | Answer generation | Llama-4-Scout-17B | Groq API |
-| Evaluation judge | Llama-3.3-70B | Groq API |
+| Evaluation judge | Llama 3.1 8B | Local (Ollama) |
 
 ---
 
 ## Evaluation Results
 
-Automated 4-tier LLM-as-a-Judge evaluation on Infineon acquisition slide deck (6 slides, 16 questions). Judge model (Llama-3.3-70B) kept independent from generator to prevent self-evaluation bias.
+Reported results from a small four-tier evaluation on an Infineon slide deck. The current evaluation script uses a local Ollama judge; the reported figures should be checked against the dataset and configuration before being compared with a new run.
 
 | Metric | Score |
 |---|---|
@@ -99,9 +99,12 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Set your Groq API key in `backend.py`:**
-```python
-GROQ_API_KEY = "your_groq_api_key_here"
+**4. Set the `GROQ_API_KEY` environment variable:**
+```bash
+# macOS / Linux
+export GROQ_API_KEY="your_key_here"
+# PowerShell
+$env:GROQ_API_KEY = "your_key_here"
 ```
 
 ---
@@ -127,12 +130,7 @@ Browser opens at `http://localhost:8501`.
 ollama pull llama3.1:8b
 ```
 
-**2. Set your Groq judge key in `evaluate.py`:**
-```python
-GROQ_JUDGE_KEY = "your_groq_api_key_here"
-```
-
-**3. Run:**
+**2. Run:**
 ```bash
 # Start Ollama in a separate terminal
 ollama serve
