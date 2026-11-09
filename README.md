@@ -13,7 +13,7 @@ A question-answering application that retrieves relevant slides using text and v
 
 ## Run locally
 
-Requirements: Python (the pinned dependencies fail to install on Python 3.10; use Python 3.11 or newer, subject to platform compatibility), an internet connection for initial model downloads and Groq requests, and a Groq API key. Model downloads and CPU indexing can take time. A GPU is not required for the retrieval models.
+Requirements: Python 3.12 (dependency installation and imports checked on Windows; the pins do not install on Python 3.10), an internet connection for initial model downloads and Groq requests, and a Groq API key. Model downloads and CPU indexing can take time. A GPU is not required for the retrieval models.
 
 ```bash
 git clone https://github.com/uwaisabdulkadir1972-sketch/Multi-Modal-RAG.git
