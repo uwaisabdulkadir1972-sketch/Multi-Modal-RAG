@@ -144,12 +144,12 @@ golden_qa = [
 ]
 
 # ─────────────────────────────────────────────────────────────────────────
-# JUDGE — llama-3.3-70b via Groq (free, strong, independent from generator)
+# JUDGE — configured Groq model, with word-overlap fallback
 # ─────────────────────────────────────────────────────────────────────────
 import requests as _requests
 
 GROQ_JUDGE_KEY = os.environ.get("GROQ_JUDGE_KEY", "")
-GROQ_JUDGE_MODEL = "llama-3.3-70b-versatile"
+GROQ_JUDGE_MODEL = os.environ.get("GROQ_JUDGE_MODEL", "openai/gpt-oss-20b")
 GROQ_JUDGE_URL   = "https://api.groq.com/openai/v1/chat/completions"
 
 _STOPWORDS = {
