@@ -2,13 +2,11 @@
 evaluate.py — Local MM-RAG Evaluation Script
 =============================================
 Runs the full golden QA evaluation against your local mmrag_store index.
-Uses llama3.1:8b via Ollama as the judge (no API key needed).
+Uses a Groq judge when configured; otherwise uses a word-overlap fallback.
 Exports results to mmrag_evaluation.xlsx in the current directory.
 
 Prerequisites:
-  1. ollama pull llama3.1:8b
-  2. ollama serve  (in a separate terminal)
-  3. Run: python evaluate.py  (with venv activated)
+  Set GROQ_API_KEY and optionally GROQ_JUDGE_KEY, then run python evaluate.py.
 """
 
 import os, re, time, datetime, json, sys
@@ -150,7 +148,7 @@ golden_qa = [
 # ─────────────────────────────────────────────────────────────────────────
 import requests as _requests
 
-GROQ_JUDGE_KEY   = ""  # ← paste your Groq key here
+GROQ_JUDGE_KEY = os.environ.get("GROQ_JUDGE_KEY", "")
 GROQ_JUDGE_MODEL = "llama-3.3-70b-versatile"
 GROQ_JUDGE_URL   = "https://api.groq.com/openai/v1/chat/completions"
 
@@ -180,9 +178,9 @@ _JUDGE_PROMPT = (
 _QUALITY_SCORES = {"GOOD": 1.0, "OK": 0.5, "BAD": 0.0}
 
 def _check_ollama_judge():
-    if GROQ_JUDGE_KEY == "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" or not GROQ_JUDGE_KEY:
+    if not GROQ_JUDGE_KEY:
         print("⚠️  Groq judge key not set — falling back to word-overlap scoring")
-        print("   Set GROQ_JUDGE_KEY in evaluate.py")
+        print("   Set the GROQ_JUDGE_KEY environment variable")
         return False
     try:
         r = _requests.get(
@@ -478,7 +476,7 @@ def export_excel(results, output_path="mmrag_evaluation.xlsx"):
     ws1.row_dimensions[row].height = 20
     c = ws1[f"B{row}"]
     auto_count = sum(1 for r in results if r.get("quality_verdict","").endswith("*"))
-    judge_note = f"Judge: llama3.1:8b (Ollama local)"
+    judge_note = f"Judge: {GROQ_JUDGE_MODEL} (Groq)" if _JUDGE_AVAILABLE else "Judge: word-overlap fallback"
     if auto_count > 0:
         judge_note += f"  |  {auto_count} auto-scored (word-overlap, marked *)"
     c.value = (f"  Model: Llama-4-Scout (Groq)   —   {judge_note}   —   "
@@ -699,3 +697,4 @@ if __name__ == "__main__":
     print("✅ Results saved to mmrag_results.json")
 
     export_excel(results, "mmrag_evaluation.xlsx")
+
