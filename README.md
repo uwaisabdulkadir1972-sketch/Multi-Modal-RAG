@@ -7,7 +7,7 @@ A question-answering application that retrieves relevant slides using text and v
 1. Convert uploaded PDFs to slide images and extract text with EasyOCR.
 2. Index slides using multi-qa-MiniLM text embeddings and CLIP image embeddings. Groq generates captions for visual content.
 3. Combine text and image similarity scores (the app starts at 0.70 and 0.30; weights are adjustable) to retrieve the top slides.
-4. Send the selected images and question to Llama 4 Scout through Groq. The interface shows the answer and retrieved sources.
+4. Send the selected images and question to Qwen 3.8 27B through Groq. The interface shows the answer and retrieved sources.
 
 **Stack:** Python, Streamlit, EasyOCR, sentence-transformers, OpenCLIP, PyTorch, Groq and PyMuPDF.
 
@@ -40,7 +40,7 @@ Open the address printed by Streamlit, select **Load System**, upload a PDF or s
 
 `evaluate.py` contains 14 hand-written questions: four direct-text, four visual, four multi-slide and two stress-test questions. The script measures retrieval, fact coverage and answer quality. The summary excludes the stress tier. It requests five retrieved slides for each question; multi-slide retrieval uses partial recall rather than a simple hit.
 
-When `GROQ_JUDGE_KEY` is set and the service is available, answer quality is graded by `llama-3.3-70b-versatile` through Groq. Otherwise the script falls back to a word-overlap heuristic, marked with `*` in the output. Results from these methods are not directly equivalent.
+When `GROQ_JUDGE_KEY` is set and the service is available, answer quality is graded by `openai/gpt-oss-20b` through Groq. Otherwise the script falls back to a word-overlap heuristic, marked with `*` in the output. Results from these methods are not directly equivalent.
 
 A prior workbook for a six-slide Infineon acquisition deck records 100% retrieval hit rate and 97% fact coverage across 12 non-stress questions, with a composite score of 99%. It reports four additional stress questions separately (67% hit rate and 33% fact coverage where applicable). This was a small, single-deck test; the workbook is from a different question set than the current script, and its judge label cannot be independently confirmed. These results have not been reproduced from the current repository.
 
