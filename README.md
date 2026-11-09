@@ -42,7 +42,7 @@ Open the address printed by Streamlit, select **Load System**, upload a PDF or s
 
 When `GROQ_JUDGE_KEY` is set and the service is available, answer quality is graded by `llama-3.3-70b-versatile` through Groq. Otherwise the script falls back to a word-overlap heuristic, marked with `*` in the output. Results from these methods are not directly equivalent.
 
-The previously reported percentages cannot be reproduced from this repository alone: the source slides and raw evaluation output are not included, and the earlier report describes a different question count and judge. They are therefore omitted here until the original run can be verified.
+A prior workbook for a six-slide Infineon acquisition deck records 100% retrieval hit rate and 97% fact coverage across 12 non-stress questions, with a composite score of 99%. It reports four additional stress questions separately (67% hit rate and 33% fact coverage where applicable). This was a small, single-deck test; the workbook is from a different question set than the current script, and its judge label cannot be independently confirmed. These results have not been reproduced from the current repository.
 
 To run the current evaluation, first index the source slides referenced in `golden_qa` using the app. Set `GROQ_API_KEY`, optionally set `GROQ_JUDGE_KEY`, and run:
 
